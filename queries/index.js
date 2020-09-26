@@ -69,12 +69,9 @@ const typeDefs = gql`
       category: String
     ): ApplicantType
 
-    saveApplicant(id: ID, status: String): ApplicantType
-    rejectApplicant(id: ID, status: String): ApplicantType
+    saveOrRejectApplicant(id: ID, status: String): ApplicantType
 
-    moveApplicantToSelections(id: ID, category: String): ApplicantType
-    moveApplicantToBackups(id: ID, category: String): ApplicantType
-    moveApplicantToRecos(id: ID, category: String): ApplicantType
+    moveApplicant(id: ID, category: String): ApplicantType
 
     ######## DELETE MUTATION ########
     deleteApplicant(id: ID): Boolean
@@ -161,7 +158,7 @@ const resolvers = {
       return Applicant.findOneAndUpdate(condition, updates);
     },
 
-    saveApplicant: (_, args) => {
+    saveOrRejectApplicant: (_, args) => {
       let condition = { _id: args.id };
       let update = {
         status: args.status,
@@ -170,34 +167,7 @@ const resolvers = {
       return Applicant.findOneAndUpdate(condition, update);
     },
 
-    rejectApplicant: (_, args) => {
-      let condition = { _id: args.id };
-      let update = {
-        status: args.status,
-      };
-
-      return Applicant.findOneAndUpdate(condition, update);
-    },
-
-    moveApplicantToSelections: (_, args) => {
-      let condition = { _id: args.id };
-      let update = {
-        category: args.category,
-      };
-
-      return Applicant.findOneAndUpdate(condition, update);
-    },
-
-    moveApplicantToBackups: (_, args) => {
-      let condition = { _id: args.id };
-      let update = {
-        category: args.category,
-      };
-
-      return Applicant.findOneAndUpdate(condition, update);
-    },
-
-    moveApplicantToRecos: (_, args) => {
+    moveApplicant: (_, args) => {
       let condition = { _id: args.id };
       let update = {
         category: args.category,
