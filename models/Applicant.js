@@ -3,10 +3,10 @@ const Schema = mongoose.Schema;
 
 const applicantSchema = new Schema(
   {
-    name: { type: String, required: true },
-    username: { type: String, required: true },
-    phone: { type: String, required: true },
-    email: { type: String, required: true, unique: true },
+    name: String,
+    username: String,
+    phone: String,
+    email: { type: String, unique: true },
     address: {
       name: String,
       geo: {

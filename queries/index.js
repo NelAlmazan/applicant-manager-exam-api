@@ -99,23 +99,30 @@ const resolvers = {
   Mutation: {
     // CREATE MUTATION
     createApplicant: (_, args) => {
+      console.log("ARGS", args);
+      args.phone;
       let newApplicant = Applicant({
         name: args.name,
         username: args.username,
         phone:
-          args.phone.slice(0, 4) +
-          "-" +
-          args.phone.slice(4, 8) +
-          "-" +
-          args.phone.slice(8, 11),
+          typeof args.phone === undefined
+            ? ""
+            : args.phone.slice(0, 4) +
+              "-" +
+              args.phone.slice(4, 8) +
+              "-" +
+              args.phone.slice(8, 11),
         email: args.email,
-        address: {
-          name: args.address.name,
-          geo: {
-            lat: args.address.geo.lat,
-            lng: args.address.geo.lng,
-          },
-        },
+        address:
+          typeof args.address === undefined
+            ? { name: {}, geo: { lat: {}, lng: {} } }
+            : {
+                name: args.address.name,
+                geo: {
+                  lat: args.address.geo.lat,
+                  lng: args.address.geo.lng,
+                },
+              },
         status: args.status,
         category: args.category,
       });
