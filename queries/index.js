@@ -96,16 +96,9 @@ const resolvers = {
               "-" +
               args.phone.slice(8, 11),
         email: args.email,
-        address:
-          typeof args.address === undefined
-            ? { name: {}, geo: { lat: {}, lng: {} } }
-            : {
-                name: args.address.name,
-                geo: {
-                  lat: args.address.geo.lat,
-                  lng: args.address.geo.lng,
-                },
-              },
+        address: args.address.name,
+        lat: args.address.geo.lat,
+        lng: args.address.geo.lng,
         status: args.status,
         category: args.category,
       });
