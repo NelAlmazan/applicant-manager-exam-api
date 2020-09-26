@@ -82,7 +82,7 @@ const resolvers = {
   Mutation: {
     // CREATE MUTATION
     createApplicant: (_, args) => {
-      console.log("ARGS", args);
+      // console.log("ARGS", args);
       args.phone;
       let newApplicant = Applicant({
         name: args.name,
@@ -108,7 +108,7 @@ const resolvers = {
 
     // UPDATE MUTATION
     updateApplicant: (_, args) => {
-      console.log("ARGS", args);
+      // console.log("ARGS", args);
       let condition = { _id: args.id };
 
       let updates = {};
@@ -163,7 +163,7 @@ const resolvers = {
 
     // DELETE MUTATION
     deleteApplicant: (_, args) => {
-      console.log("_ + args", _, args);
+      // console.log("_ + args", _, args);
       // return Applicant.findOneAndDelete({ _id: args.id });
 
       let condition = args.id;
