@@ -23,7 +23,7 @@ const typeDefs = gql`
   # Queries
   type Query {
     getApplicants: [ApplicantType]
-    getApplicantById(id: ID!): ApplicantType
+    getApplicantById(id: ID): ApplicantType
   }
 
   # Mutations
@@ -96,9 +96,9 @@ const resolvers = {
               "-" +
               args.phone.slice(8, 11),
         email: args.email,
-        address: args.address.name,
-        lat: args.address.geo.lat,
-        lng: args.address.geo.lng,
+        address: args.address,
+        lat: args.lat,
+        lng: args.lng,
         status: args.status,
         category: args.category,
       });
@@ -108,6 +108,7 @@ const resolvers = {
 
     // UPDATE MUTATION
     updateApplicant: (_, args) => {
+      console.log("ARGS", args);
       let condition = { _id: args.id };
 
       let updates = {};
@@ -132,9 +133,9 @@ const resolvers = {
         username: args.username,
         phone: phoneFormat,
         email: args.email,
-        address: args.address.name,
-        lat: args.address.geo.lat,
-        lng: args.address.geo.lng,
+        address: args.address,
+        lat: args.lat,
+        lng: args.lng,
         status: args.status,
         category: args.category,
       };
