@@ -5,26 +5,6 @@ const Applicant = require("../models/Applicant");
 const typeDefs = gql`
   scalar Date
 
-  type GeoType {
-    lat: String
-    lng: String
-  }
-
-  type AddressType {
-    name: String
-    geo: GeoType
-  }
-
-  input GeoInput {
-    lat: String
-    lng: String
-  }
-
-  input AddressInput {
-    name: String
-    geo: GeoInput
-  }
-
   type ApplicantType {
     id: ID
     createdAt: Date
@@ -32,7 +12,9 @@ const typeDefs = gql`
     name: String
     username: String
     phone: String
-    address: AddressType
+    address: String
+    lat: String
+    lng: String
     email: String
     status: String
     category: String
@@ -52,7 +34,9 @@ const typeDefs = gql`
       username: String
       phone: String
       email: String
-      address: AddressInput
+      address: String
+      lat: String
+      lng: String
       status: String
       category: String
     ): ApplicantType
@@ -64,7 +48,9 @@ const typeDefs = gql`
       username: String
       phone: String
       email: String
-      address: AddressInput
+      address: String
+      lat: String
+      lng: String
       status: String
       category: String
     ): ApplicantType
@@ -132,25 +118,30 @@ const resolvers = {
       let condition = { _id: args.id };
 
       let updates = {};
-      let phoneFormat =
-        args.phone.slice(0, 4) +
-        "-" +
-        args.phone.slice(4, 8) +
-        "-" +
-        args.phone.slice(8, 11);
+
+      const format = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+
+      let phoneFormat = "";
+
+      if (format.test(args.phone)) {
+        phoneFormat = args.phone;
+      } else {
+        phoneFormat =
+          args.phone.slice(0, 4) +
+          "-" +
+          args.phone.slice(4, 8) +
+          "-" +
+          args.phone.slice(8, 11);
+      }
 
       updates = {
         name: args.name,
         username: args.username,
         phone: phoneFormat,
         email: args.email,
-        address: {
-          name: args.address.name,
-          geo: {
-            lat: args.address.geo.lat,
-            lng: args.address.geo.lng,
-          },
-        },
+        address: args.address.name,
+        lat: args.address.geo.lat,
+        lng: args.address.geo.lng,
         status: args.status,
         category: args.category,
       };

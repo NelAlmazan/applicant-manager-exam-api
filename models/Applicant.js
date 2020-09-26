@@ -7,13 +7,9 @@ const applicantSchema = new Schema(
     username: String,
     phone: String,
     email: { type: String, unique: true },
-    address: {
-      name: String,
-      geo: {
-        lat: String,
-        lng: String,
-      },
-    },
+    address: String,
+    lat: String,
+    lng: String,
     status: String,
     category: String,
   },
