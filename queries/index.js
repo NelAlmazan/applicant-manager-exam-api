@@ -83,18 +83,25 @@ const resolvers = {
     // CREATE MUTATION
     createApplicant: (_, args) => {
       // console.log("ARGS", args);
-      args.phone;
+      const format = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+
+      let phoneFormat = "";
+
+      if (format.test(args.phone)) {
+        phoneFormat = args.phone;
+      } else {
+        phoneFormat =
+          args.phone.slice(0, 4) +
+          "-" +
+          args.phone.slice(4, 8) +
+          "-" +
+          args.phone.slice(8, 11);
+      }
+
       let newApplicant = Applicant({
         name: args.name,
         username: args.username,
-        phone:
-          typeof args.phone === undefined
-            ? ""
-            : args.phone.slice(0, 4) +
-              "-" +
-              args.phone.slice(4, 8) +
-              "-" +
-              args.phone.slice(8, 11),
+        phone: phoneFormat,
         email: args.email,
         address: args.address,
         lat: args.lat,
